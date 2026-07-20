@@ -48,7 +48,7 @@
           <el-icon><MagicStick /></el-icon>
           <span>任务拆解</span>
         </el-menu-item>
-        <el-menu-item index="8"disabled>
+        <el-menu-item index="/taskm">
           <el-icon><List /></el-icon>
           <span>任务管理</span>
         </el-menu-item>

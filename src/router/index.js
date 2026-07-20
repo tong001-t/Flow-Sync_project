@@ -4,7 +4,7 @@ import ButtonView from '@/views/ButtonView.vue'
 import IndexView from '@/views/IndexView.vue'
 import Overview from '@/components/Overview.vue'
 import PM from '@/components/PM.vue'
-import Taskbreak from '@/components/Taskbreak.vue'
+import TaskM from '@/components/TaskM.vue'
 const routes = [
   {
     path: '/',
@@ -22,6 +22,10 @@ const routes = [
       {
         path:'/taskbreak',
         component:()=>import ('@/components/Taskbreak.vue')
+      },
+      {
+        path:'/taskm',
+        component:() => import('@/components/TaskM.vue')
       }
     ]
   },

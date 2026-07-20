@@ -145,12 +145,12 @@
         },
         methods:{
         List(){
-            axios.get("http://10.23.74.95:9000/project/list")
+            axios.get("http://localhost:9000/project/list")
             .then(data=>this.list=data.data)
             .catch(err=>console.log(err))
         },
         add(){
-            axios.post("http://10.23.74.95:9000/project/add",this.add_project)
+            axios.post("http://localhost:9000/project/add",this.add_project)
             .then(data=>{
                         this.addDialogVisible=false
                         alert(data.data.msg)
@@ -159,7 +159,7 @@
             .catch(err=>console.log(err))
         },
         load(row){
-            axios.get("http://10.23.74.95:9000/project/one/"+row.id)
+            axios.get("http://localhost:9000/project/one/"+row.id)
             .then(data=>{
             this.edit_project=data.data
             this.editDialogVisible=true
@@ -167,7 +167,7 @@
             .catch(err=>console.log(err))
         },
         update(){
-            axios.put("http://10.23.74.95:9000/project/update",this.edit_project)
+            axios.put("http://localhost:9000/project/update",this.edit_project)
             .then(data=>{
                         this.editDialogVisible=false
                         alert(data.data.msg)
@@ -176,7 +176,7 @@
             .catch(err=>console.log(err))
         },
         del(row){
-            axios.delete("http://10.23.74.95:9000/project/delete/"+row.id)
+            axios.delete("http://localhost:9000/project/delete/"+row.id)
             .then(data=>{
                         alert(data.data.msg)
                         this.List()
