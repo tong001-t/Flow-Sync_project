@@ -1,9 +1,12 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <!-- <router-link to="/">Index</router-link> |
+    <router-link to="/home">Home</router-link> |
+    <router-link to="/about">About</router-link> |
+    <router-link to="/button">Button</router-link> -->
+    <router-view/>
   </nav>
-  <router-view/>
+
 </template>
 
 <style lang="scss">
@@ -16,7 +19,7 @@
 }
 
 nav {
-  padding: 30px;
+  padding: 0px;
 
   a {
     font-weight: bold;
