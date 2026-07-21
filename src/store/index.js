@@ -29,22 +29,25 @@ export default createStore({
   actions: {
     async login({ commit }, { username, password }) {
       const res = await authAPI.login({ username, password })
-      if (res.data.success) {
-        const user = res.data.data
+      const data = res.data
+      // 后端统一返回 { code: 100/101, message, data }
+      if (data.code === 100 && data.data) {
+        const user = data.data
         commit('SET_CURRENT_USER', user)
         return { success: true, user }
       }
-      return { success: false, message: res.data.message }
+      return { success: false, message: data.message }
     },
     logout({ commit }) {
       commit('LOGOUT')
     },
     async updatePassword({ commit }, { oldPassword, newPassword }) {
       const res = await userAPI.updatePassword({ oldPassword, newPassword })
-      if (res.data.success) {
-        return { success: true, message: res.data.message }
+      const data = res.data
+      if (data.code === 100) {
+        return { success: true, message: data.message }
       }
-      return { success: false, message: res.data.message }
+      return { success: false, message: data.message }
     }
   }
 })
