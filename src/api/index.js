@@ -16,10 +16,11 @@ api.interceptors.request.use(
         const user = JSON.parse(userStr)
         if (user.id) {
           if (config.method === 'get') {
-            config.params = { ...config.params, currentUserId: user.id }
+            config.params = { ...config.params, currentUserId: user.id, role: user.role }
           } else {
             if (config.data && typeof config.data === 'object') {
               config.data.currentUserId = user.id
+              config.data.role = user.role
             }
           }
         }
