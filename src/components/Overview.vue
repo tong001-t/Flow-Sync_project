@@ -1,132 +1,127 @@
 <template>
   <div class="allcard">
-            <el-card class="card" style="height: 120px;width: 288px ;border-radius: 20px"shadow="hover">
-                <div class="subtitle">成员总数</div>
-                <div class="title">5</div>
-            </el-card>
-            <el-card class="card"style="height: 120px;width: 288px ;border-radius: 20px" shadow="hover">
-                <div class="subtitle">项目总数</div>
-                <div class="title">1</div>
-            </el-card>
-            <el-card class="card"style="height: 120px;width: 288px ;border-radius: 20px" shadow="never">
-                <div class="subtitle">任务总数</div>
-                <div class="title">？</div>
-            </el-card>
-            <el-card class="card"style="height: 120px;width: 288px ;border-radius: 20px" shadow="never">
-                <div class="subtitle">总结总数</div>
-                <div class="title">0</div>
-            </el-card>
-            <el-card class="card"style="height: 300px;width: 596px ;border-radius: 20px" shadow="never">
-                <el-row>
-                    最近项目
-                </el-row>
-                <hr >
-                <el-row>
-                    <el-table :data="tableData" border style="width: 100%">
-                        <el-table-column prop="date" label="项目名称" width="250" />
-                        <el-table-column prop="name" label="状态" width="180" />
-                        <el-table-column prop="address" label="优先级" width="120" />
-                    </el-table>
-                </el-row>
-            </el-card>
-            <el-card class="card"style="height: 300px;width: 596px ;border-radius: 20px"s shadow="never">
-                <el-row>
-                    最近任务
-                </el-row>
-                <hr >
-                <el-row>
-                    <el-table :data="tableData2" border style="width: 100%">
-                        <el-table-column prop="date" label="任务标题" width="250" />
-                        <el-table-column prop="name" label="状态" width="180" />
-                        <el-table-column prop="address" label="优先级" width="120" />
-                    </el-table>
-                </el-row>
-            </el-card>
-    </div>
+    <!-- 1. 成员总数卡片 -->
+    <el-card class="card" style="height: 120px; width: 288px; border-radius: 20px" shadow="hover">
+      <div class="subtitle">成员总数</div>
+      <div class="title">{{ stats.memberCount }}</div>
+    </el-card>
+
+    <!-- 2. 项目总数卡片 -->
+    <el-card class="card" style="height: 120px; width: 288px; border-radius: 20px" shadow="hover">
+      <div class="subtitle">项目总数</div>
+      <div class="title">{{ stats.projectCount }}</div>
+    </el-card>
+
+    <!-- 3. 任务总数卡片 -->
+    <el-card class="card" style="height: 120px; width: 288px; border-radius: 20px" shadow="never">
+      <div class="subtitle">任务总数</div>
+      <div class="title">{{ stats.taskCount }}</div>
+    </el-card>
+
+    <!-- 4. 总结总数卡片 -->
+    <el-card class="card" style="height: 120px; width: 288px; border-radius: 20px" shadow="never">
+      <div class="subtitle">总结总数</div>
+      <div class="title">{{ stats.summaryCount }}</div>
+    </el-card>
+
+    <!-- 5. 最近项目表格（纯展示） -->
+    <el-card class="card" style="height: 300px; width: 596px; border-radius: 20px" shadow="never">
+      <el-row>最近项目</el-row>
+      <hr />
+      <el-row>
+        <el-table :data="recentProjects" border style="width: 100%">
+          <el-table-column prop="name" label="项目名称" width="250" />
+          <el-table-column prop="status" label="状态" width="180" />
+          <el-table-column prop="priority" label="优先级" width="120" />
+        </el-table>
+      </el-row>
+    </el-card>
+
+    <!-- 6. 最近任务表格（纯展示） -->
+    <el-card class="card" style="height: 300px; width: 596px; border-radius: 20px" shadow="never">
+      <el-row>最近任务</el-row>
+      <hr />
+      <el-row>
+        <el-table :data="recentTasks" border style="width: 100%">
+          <el-table-column prop="title" label="任务标题" width="250" />
+          <el-table-column prop="status" label="状态" width="180" />
+          <el-table-column prop="priority" label="优先级" width="120" />
+        </el-table>
+      </el-row>
+    </el-card>
+  </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { useCssVar } from '@vueuse/core'
+<script>
+import axios from "axios";
 
-'use strict'
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'Angeles',
+export default {
+  data() {
+    return {
+      // 统计数字对象
+      stats: {
+        memberCount: 0,
+        projectCount: 0,
+        taskCount: 0,
+        summaryCount: 0
+      },
+      // 两个表格的数据列表
+      recentProjects: [],
+      recentTasks: []
+    };
   },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'Angeles',
+  created() {
+    this.getOverviewData();
   },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'Angeles',
-  },
-]
-const tableData2 = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'Angeles',
-  },
-]
+  methods: {
+    // 获取概览整体数据
+    getOverviewData() {
+      axios.get("http://localhost:9000/overview/data")
+        .then(res => {
+          const vo = res.data;
+          // 绑定 4 个统计数据
+          this.stats.memberCount = vo.memberCount || 0;
+          this.stats.projectCount = vo.projectCount || 0;
+          this.stats.taskCount = vo.taskCount || 0;
+          this.stats.summaryCount = vo.summaryCount || 0;
+
+          // 绑定最近项目和最近任务列表
+          this.recentProjects = vo.recentProjects || [];
+          this.recentTasks = vo.recentTasks || [];
+        })
+        .catch(err => {
+          console.error("获取概览数据失败：", err);
+        });
+    }
+  }
+};
 </script>
 
 <style scoped>
-.allcard{
-    height:150px;
-     margin-bottom:0px;
-     flex:left;
-     padding:px
+.allcard {
+  height: 150px;
+  margin-bottom: 0px;
+  padding: 0px;
 }
 .card {
-  /* flex: 1;               核心：等同于 main 的效果，自动吃掉右边所有剩下的宽度
-  height: 100%;
-  padding: 0 24px;       右侧内部的边距
   display: flex;
-  align-items: center;   让右边的内容（比如文字或菜单）垂直居中
-  gap: 4px;  */
-  display: flex;
-  flex-direction: column; /* 让文字上下排列 */
-  gap: 8px;              /* 精准控制两个文本之间的间距，数字越小越紧凑 */
-  align-items: flex-start; /* 左对齐 */
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
   flex: 1;
   margin: 10px;
-  height:100%;
-  float:left;
+  height: 100%;
+  float: left;
 }
 .title {
   font-size: 24px;
   font-weight: bold;
-  line-height: 2;       /* 压低大文字自身的行高 */
+  line-height: 2;
 }
 .subtitle {
   font-size: 14px;
   color: #666;
   line-height: 2;
 }
+
 </style>

@@ -18,7 +18,7 @@
           <template #default="{ row }">
             <div style="display: flex; align-items: center; gap: 8px;">
               <el-progress :percentage="row.progressPercent || 0" :stroke-width="16" :color="progressColor(row.progressPercent)" style="flex: 1;" />
-              <span style="font-weight: bold; min-width: 40px;">{{ row.progressPercent || 0 }}%</span>
+              <span style="font-weight: bold; min-width: 40px;"></span>
             </div>
           </template>
         </el-table-column>

@@ -1,3 +1,4 @@
+// src/api/index.js
 import axios from 'axios'
 
 const BASE_URL = 'http://localhost:9000'
@@ -7,7 +8,6 @@ const api = axios.create({
   timeout: 15000
 })
 
-// 请求拦截器：自动注入 currentUserId
 api.interceptors.request.use(
   config => {
     const userStr = sessionStorage.getItem('currentUser')
@@ -32,7 +32,6 @@ api.interceptors.request.use(
   error => Promise.reject(error)
 )
 
-// 响应拦截器
 api.interceptors.response.use(
   response => response,
   error => {
@@ -66,7 +65,9 @@ export const taskLogAPI = {
 
 export const summaryAPI = {
   list: () => api.get('/summary/list'),
-  add: (data) => api.post('/summary/add', data)
+  add: (data) => api.post('/summary/add', data),
+  update: (data) => api.put('/summary/update', data),
+  delete: (id) => api.delete(`/summary/delete/${id}`)
 }
 
 export const userAPI = {

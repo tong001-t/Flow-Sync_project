@@ -11,7 +11,7 @@
         </div>
       </div>
       <hr />
-      <el-table :data="list" border style="width: 100%" v-loading="loading">
+      <el-table :data="list" border style="width: 100%;height:500px" v-loading="loading">
         <el-table-column prop="id" label="ID" width="60" />
         <el-table-column prop="title" label="任务标题" min-width="160" show-overflow-tooltip />
         <el-table-column label="所属项目" width="120"><template #default="{ row }">{{ getProjectName(row.projectId) }}</template></el-table-column>
@@ -30,6 +30,7 @@
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="600px" align-center @closed="resetForm">
       <el-form :model="form" label-width="100px">
+        <!-- <el-form-item label="任务标题"><el-input v-model="form.id" :disabled="!isLeader" /></el-form-item> -->
         <el-form-item v-if="isLeader" label="所属项目"><el-select v-model="form.projectId" style="width: 100%"><el-option v-for="p in projectList" :key="p.id" :label="p.name" :value="p.id" /></el-select></el-form-item>
         <el-form-item label="任务标题"><el-input v-model="form.title" :disabled="!isLeader" /></el-form-item>
         <el-form-item label="任务说明"><el-input v-model="form.description" type="textarea" :rows="3" :disabled="!isLeader" /></el-form-item>
@@ -55,7 +56,7 @@ const currentUserId = computed(() => store.getters.currentUserId)
 
 const list = ref([]); const projectList = ref([]); const userList = ref([])
 const loading = ref(false); const dialogVisible = ref(false); const filterProjectId = ref(null); const isEdit = ref(false)
-const form = ref({ id: null, projectId: null, title: '', description: '', assigneeId: null, status: '未开始', priority: '中', dueDate: '' })
+const form = ref({ id: 0, projectId: null, title: '', description: '', assigneeId: null, status: '未开始', priority: '中', dueDate: '' })
 
 const dialogTitle = computed(() => !isEdit.value ? '新建任务' : (isLeader.value ? '编辑任务' : '更新任务状态'))
 const getProjectName = (id) => { const p = projectList.value.find(p => p.id === id); return p ? p.name : `#${id}` }
