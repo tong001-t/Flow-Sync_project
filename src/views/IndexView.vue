@@ -25,7 +25,7 @@
 					<div>
 						<el-row class="tac">
 							<el-col :span="24">
-								<el-menu default-active="/overview" class="el-menu-vertical-demo" router>
+								<el-menu default-active="route.path" class="el-menu-vertical-demo" router>
 									<el-menu-item-group>
 										<template #title><span class="group-title">工作台</span></template>
 										<el-menu-item index="/overview">

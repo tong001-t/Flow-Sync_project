@@ -24,8 +24,8 @@
       <div class="title">{{ stats.summaryCount }}</div>
     </el-card>
 
-    <!-- 5. 最近项目表格（纯展示） -->
-    <el-card class="card" style="height: 300px; width: 596px; border-radius: 20px" shadow="never">
+    <!-- 5. 最近项目表格 -->
+    <el-card class="card" style="height: 320px; width: 596px; border-radius: 20px" shadow="never">
       <el-row>最近项目</el-row>
       <hr />
       <el-row>
@@ -37,8 +37,8 @@
       </el-row>
     </el-card>
 
-    <!-- 6. 最近任务表格（纯展示） -->
-    <el-card class="card" style="height: 300px; width: 596px; border-radius: 20px" shadow="never">
+    <!-- 6. 最近任务表格 -->
+    <el-card class="card" style="height: 320px; width: 596px; border-radius: 20px" shadow="never">
       <el-row>最近任务</el-row>
       <hr />
       <el-row>
