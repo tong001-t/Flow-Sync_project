@@ -18,7 +18,7 @@
 					</el-button>
 				</el-form-item>
 			</el-form>
-			<div class="login-hint">
+			<div style="text-align: center; color: #909399; font-size: 13px; margin-top: 16px;">
 				<p>预置账号：leader / member1 / member2</p>
 				<p>密码均为：123456</p>
 			</div>
@@ -44,20 +44,24 @@ export default {
 			this.$refs.formRef.validate(valid => {
 				if (!valid) return
 				this.loading = true
-				axios.post("http://localhost:9000/auth/login", this.form)
-					.then(res => {
-						if (res.data.code === 100 && res.data.data) {
-							const user = res.data.data
-							sessionStorage.setItem('currentUser', JSON.stringify(user))
-							this.$store.commit('SET_CURRENT_USER', user)
-							alert('登录成功')
-							this.$router.push(this.$route.query.redirect || '/overview')
-						} else {
-							alert(res.data.message || '登录失败')
-						}
-					})
-					.catch(() => alert('登录失败，请检查网络连接'))
-					.finally(() => this.loading = false)
+				axios.post("http://localhost:9000/auth/login", {
+					username: this.form.username,
+					password: this.form.password
+				}).then(res => {
+					if (res.data.code === 100 && res.data.data) {
+						const user = res.data.data
+						sessionStorage.setItem('currentUser', JSON.stringify(user))
+						this.$store.commit('SET_CURRENT_USER', user)
+						alert('登录成功')
+						const redirect = this.$route.query.redirect || '/overview'
+						this.$router.push(redirect)
+					} else {
+						alert(res.data.message || '登录失败')
+					}
+				}).catch(err => {
+					alert('登录失败，请检查网络连接')
+					console.log(err)
+				}).finally(() => this.loading = false)
 			})
 		}
 	}
@@ -65,10 +69,30 @@ export default {
 </script>
 
 <style scoped>
-.login-container { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.login-card { width: 420px; padding: 20px 30px; border-radius: 12px; }
-.login-header { text-align: center; margin-bottom: 30px; }
-.login-header h1 { font-size: 32px; color: #303133; margin: 0 0 8px 0; }
-.login-header p { font-size: 14px; color: #909399; margin: 0; }
-.login-hint { text-align: center; color: #909399; font-size: 13px; margin-top: 16px; }
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.login-card {
+	width: 420px;
+	padding: 20px 30px;
+	border-radius: 12px;
+}
+.login-header {
+	text-align: center;
+	margin-bottom: 30px;
+}
+.login-header h1 {
+	font-size: 32px;
+	color: #303133;
+	margin: 0 0 8px 0;
+}
+.login-header p {
+	font-size: 14px;
+	color: #909399;
+	margin: 0;
+}
 </style>
