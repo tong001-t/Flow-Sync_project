@@ -28,6 +28,13 @@
 import axios from "axios";
 export default {
 	data() {
+		const validateNewPassword = (rule, value, callback) => {
+			if (value && value === this.passwordForm.oldPassword) {
+				callback(new Error('新密码不能与旧密码相同'))
+			} else {
+				callback()
+			}
+		}
 		const validateConfirm = (rule, value, callback) => {
 			callback(value !== this.passwordForm.newPassword ? new Error('两次密码不一致') : undefined)
 		}
@@ -37,7 +44,7 @@ export default {
 			passwordForm: { oldPassword: '', newPassword: '', confirmPassword: '' },
 			rules: {
 				oldPassword: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
-				newPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }, { min: 6, message: '至少6位', trigger: 'blur' }],
+				newPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }, { min: 6, message: '至少6位', trigger: 'blur' }, { validator: validateNewPassword, trigger: 'blur' }],
 				confirmPassword: [{ required: true, message: '请再次输入', trigger: 'blur' }, { validator: validateConfirm, trigger: 'blur' }]
 			}
 		}

@@ -1,9 +1,12 @@
 <template>
 	<div>
 		<el-card class="card" style="border-radius: 20px" shadow="hover">
-			<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;"><span>成员列表</span></div>
+			<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+				<span>成员列表</span>
+				<el-input v-model="searchKeyword" placeholder="搜索用户名" clearable prefix-icon="Search" style="width: 220px" />
+			</div>
 			<hr />
-			<el-table :data="list" border style="width: 100%" v-loading="loading">
+			<el-table :data="filteredList" border style="width: 100%" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="60" />
 				<el-table-column prop="username" label="用户名" width="120" />
 				<el-table-column prop="realName" label="真实姓名" width="120" />
@@ -22,7 +25,15 @@ export default {
 	data() {
 		return {
 			list: [],
-			loading: false
+			loading: false,
+			searchKeyword: ''
+		}
+	},
+	computed: {
+		filteredList() {
+			if (!this.searchKeyword) return this.list
+			const kw = this.searchKeyword.toLowerCase()
+			return this.list.filter(u => u.username && u.username.toLowerCase().includes(kw))
 		}
 	},
 	mounted() {
