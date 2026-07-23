@@ -5,7 +5,7 @@
             <el-card class="card" style="border-radius: 20px"shadow="hover">
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <span>项目列表</span>
-                <el-button type="primary" @click="addDialogVisible = true">新建项目</el-button>
+                <el-button v-if="isLeader" type="primary" @click="addDialogVisible = true">新建项目</el-button>
                 </div>
                 <hr >
                 <el-row>
@@ -21,8 +21,8 @@
                         <el-table-column prop="createTime" label="创建时间" width="180" />
                         <el-table-column label="操作" width="180">
                             <template #default="{row}">
-                                <el-button type="primary" @click="load(row)">编辑</el-button>
-                                <el-button type="danger" @click="del(row)">删除</el-button>
+                                <el-button v-if="isLeader" type="primary" @click="load(row)">编辑</el-button>
+                                <el-button v-if="isLeader" type="danger" @click="del(row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -111,6 +111,9 @@
 <script>
     import axios from "axios";
     export default{
+        computed: {
+            isLeader() { return this.$store.getters.isLeader }
+        },
         data(){
             return{
                 list:[],
